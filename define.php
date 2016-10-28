@@ -5,10 +5,17 @@ define ("JK_SUCCESS", 			100);
 define ("JK_DEBUG", 			101);
 define ("JK_FAIL",				999);
 
-function sendMsg( $msg ) 
+function sendArr( $arr, $cmd )
+{
+	$arr['rcode']		= JK_SUCCESS;
+	$arr['cmd']			= $cmd;
+	echo json_encode($arr);
+}
+function sendMsg( $msg, $cmd ) 
 { 
 	$return['rcode'] 		= JK_SUCCESS; 
 	$return['msg'] 			= $msg;
+	$return['cmd']			= $cmd;
 	echo json_encode($return); 
 }
 function sendMsg2( $msg, $code ) 

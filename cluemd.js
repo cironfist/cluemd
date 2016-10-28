@@ -20,7 +20,7 @@ function fResponse()
 	case 4:			// complete
 		var r = JSON.parse( this.responseText );
 		if( r.rcode == 100 )
-			fRecv(r.msg);
+			fRecv(r);
 		else
 			fError('receive error.');	
 		break;
