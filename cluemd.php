@@ -20,8 +20,15 @@
 
 	switch( $ar->cmd )
 	{
-	case "test1":			doTest1($ar);		break;
-	case "getname": 		doGetname();		break;
+	case "test1":			doTest1($ar);					break;
+	case "getname": 		doGetname($ar);					break;
+	case "getSalary":		doSalary($ar);					break;
+	case "setWelfare":		doSetWelfare($ar);				break;
+	case "getWelfare":		doGetWelfare($ar);				break;		
+	case "setIncenInfo":	doSetIncenInfo($ar);			break;
+	case "getIncen":		doGetIncen($ar);				break;
+	case "getUserInfo":		doGetUserinfo($ar);				break;
+	case "setName":			doSetName($ar);					break;				
 	default:	
 	}
 ?>

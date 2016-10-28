@@ -32,22 +32,16 @@ function fResponse()
 
 function doQuery(arr)
 {
-	var h, url, s;
+	var h, url, snd;
 
 	arr.cluemd = '0.1';
 	
-	switch(arr.cmd)
-	{
-	case "select"	: url="select.php"; 		break;
-	case "login"	: url="login.php";			break;
-	}
-
-	s = "jk="+JSON.stringify(arr);
+	snd = "jk="+JSON.stringify(arr);
 
 	h = new XMLHttpRequest();
 	h.onreadystatechange = fResponse;
-	h.open("POST", url, true);
+	h.open("POST", "cluemd.php", true);
 	h.setRequestHeader('Content-Type','application/x-www-form-urlencoded;charset=UTF-8');
-	h.send(s);
+	h.send(snd);
 }
 

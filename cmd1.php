@@ -3,7 +3,7 @@ try{
 include 'define.php';
 include 'database.php';
 
-function doGetname($cmd)
+function doGetname($recv)
 {
 	$q = "SELECT aname FROM test;";
 
@@ -11,7 +11,7 @@ function doGetname($cmd)
 	$arr = $db->getQuery($q);
 
 	$r = json_decode($arr);
-	sendArr($r,$cmd);
+	sendArr($r,$recv->cmd);
 }
 
 } catch( Exception $e ) {
