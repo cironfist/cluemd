@@ -1,0 +1,41 @@
+<!doctype html>
+<head>
+	<title>select</title>
+	<meta charset="utf-8"/>
+	<script src="cluemd.js"></script>
+</head>
+<body>
+	<div class="fields">
+		<p class="row">
+			<label for="column" id="ff">column name</label>
+			<input type="text" id="column" class="field_large"/>
+		</p>
+		<p class="row">
+			<label for="date">data</label>
+			<input type="text" id="data" class="field_large"/>
+		</p>
+	</div>
+	<input type="button" value="select" onclick="fClick()" />
+	<p id="result">result</p>
+
+<script>
+function fError(r)
+{
+	document.getElementById('result').innerText = r;	
+}
+function fRecv(r)
+{
+	document.getElementById('result').innerText = r;	
+}
+function fClick() 
+{
+	var param = new Object();
+	param.cmd = 'select';
+	param.column = document.getElementById('column').value;
+	param.data = document.getElementById('data').value;
+
+	doQuery(param);		
+}
+</script>
+</body>
+</html>
