@@ -1,5 +1,6 @@
 <?php
 	include 'define.php';	
+	include 'database.php';
 
 	include 'cmd1.php';
 	include 'cmd2.php';
@@ -22,6 +23,7 @@
 	{
 	case "test1":			doTest1($ar);					break;
 	case "getname": 		doGetname($ar);					break;
+	case "addname";			doAddname($ar);					break;
 	case "getSalary":		doSalary($ar);					break;
 	case "setWelfare":		doSetWelfare($ar);				break;
 	case "getWelfare":		doGetWelfare($ar);				break;		

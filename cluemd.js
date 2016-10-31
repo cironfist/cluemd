@@ -3,14 +3,6 @@ function fError(r) {}
 
 function fResponse()
 {
-	var recv;
-	
-	if( this.status != 200 )
-	{
-		fError('status:'+this.status);
-		return;
-	}
-
 	switch(this.readyState)
 	{
 	case 0: break;	// uninitialiazed
@@ -21,11 +13,8 @@ function fResponse()
 		var r = JSON.parse( this.responseText );
 		if( r.rcode == 100 )
 			fRecv(r);
-		else
-			fError('receive error.');	
 		break;
 	default: 
-		fError('unknown error.');
 		break;
 	}
 }

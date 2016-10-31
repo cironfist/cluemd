@@ -1,15 +1,15 @@
 <?php
-include 'define.php';
 class jkDB {
 	protected $pdo;
 
-	function __construct() { $pdo = NULL; }
+	function __construct() { $this->open(); }
 	function __destruct() {}
 
 	protected function open()
 	{
 		try{
-			$pdo = new PDO('mysql:host=localhost;dbname=test','root','opfdcrr');
+			$this->pdo = 
+				new PDO('mysql:host=localhost;dbname=cluemd','root','opfdcrr');
 		} catch( PDOException $e ) {
 			alog( $e->getMessage() );
 			return false;
@@ -34,18 +34,16 @@ class jkDB {
 	{
 		clog("query:".$msg);
 
-		if($pdo == NULL) 
-			if( !open() ) 
-				return false;
-		
-		$r = $pdo->query($msg);
+		$r = $this->pdo->query($msg);
 		if( !$r )
 		{
-			blog( print_r($pdo->errorInfo(), 'query error') );
+			blog( print_r($this->pdo->errorInfo()), 'query error' );
 			return false;
 		}
 		return $r;
 	}
+
+	function setQuery( $msg ) { return $this->query( $msg ); }
 	
 }
 	

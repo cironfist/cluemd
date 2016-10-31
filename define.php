@@ -13,22 +13,22 @@ function sendArr( $arr, $cmd )
 }
 function sendMsg( $msg, $cmd ) 
 { 
-	$return['rcode'] 		= JK_SUCCESS; 
-	$return['msg'] 			= $msg;
-	$return['cmd']			= $cmd;
-	echo json_encode($return); 
+	$r['rcode'] 		= JK_SUCCESS; 
+	$r['msg'] 			= $msg;
+	$r['cmd']			= $cmd;
+	echo json_encode($r); 
 }
 function sendMsg2( $msg, $code ) 
 { 
-	$return['rcode'] 		= $code; 
-	$return['msg'] 			= $msg;
-	echo json_encode($return); 
+	$r['rcode'] 		= $code; 
+	$r['msg'] 			= $msg;
+	echo json_encode($r); 
 }
 function sendDMsg( $msg ) 
 { 
-	$return['rcode'] 		= JK_DEBUG; 
-	$return['msg'] 			= $msg;
-	echo json_encode($return); 
+	$r['rcode'] 		= JK_DEBUG; 
+	$r['msg'] 			= $msg;
+	echo json_encode($r); 
 }
 function alog( $m ) { clog($m); sendDMsg($m); }
 function blog( $s, $c ) { clog($s); sendDMsg($c); }
