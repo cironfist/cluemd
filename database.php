@@ -19,7 +19,7 @@ class jkDB {
 
 	function getQuery( $msg )
 	{
-		$st = query( $msg );
+		$st = $this->query( $msg );
 		if( !$st ) return false;
 			
 		$r = array();

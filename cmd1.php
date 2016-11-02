@@ -8,8 +8,8 @@ function doGetname($recv)
 	$db = new jkDB();
 	$arr = $db->getQuery($q);
 
-	$r = json_decode($arr);
-	sendArr($r,$recv->cmd);
+	$r = json_encode($arr);
+	sendMsg($r,$recv->cmd);
 }
 
 function doAddname($ar)

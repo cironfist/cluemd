@@ -1,0 +1,40 @@
+<!doctype html>
+<head>
+	<title>GETNAME</title>
+	<meta charset="utf-8">
+	<SCRIPT src="cluemd.js"></SCRIPT>
+</head>
+<body>
+	<div class="fields">
+		<p class="row">
+			<label for="column">aname</label>
+			<input type="text" id="data" name="column"/>
+		</p>
+	<input type="button" value="getname" onclick="fClick()" />
+	<p id="result">result</p>
+	</div>
+</body>
+<script>
+function fRecv(r)
+{
+	var a = Array();
+	a = JSON.parse(r.msg);
+
+	var result;
+	for( var i = 0; i < a.length; i++ )
+	{
+		result += a[i].aname+":";
+	}
+
+	document.getElementById('result').innerText = result;	
+}
+function fClick() 
+{
+	var p = new Object();
+	p.cmd = 'getname';
+	p.aname = document.getElementById('data').value;
+
+	doQuery(p);
+}
+</script>
+</html>

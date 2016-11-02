@@ -1,6 +1,36 @@
 function fRecv(r) {}
 function fError(r) {}
 
+function setCookie($key,$value,$exp)
+{
+	var d = new Date();
+	var ar = new Object();
+	ar['domain'] 	= 'cluemd';
+	ar[$key]		= $value;
+	ar['expday'] 	= d.getDate()+$exp;	
+	document.cookie = JSON.stringify(ar);	
+}
+
+function getCookie($key)
+{
+	var $c = document.cookie;
+	if( !$c )
+		return "cookie("+$key+")->not set";
+	var r = JSON.parse( document.cookie );
+	if( !r[$key] )
+		return false;
+	else
+	{
+		if( r['expday'] )
+		{
+			var d = new Date();
+			if( r['expday'] < d.getDate() )
+				return false;
+		}
+		return r[$key]; 
+	}
+}
+
 function fResponse()
 {
 	switch(this.readyState)
