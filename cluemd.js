@@ -55,7 +55,7 @@ function doQuery(arr)
 
 	arr.cluemd = '0.1';
 	
-	snd = "jk="+JSON.stringify(arr);
+	snd = "jk"+JSON.stringify(arr);
 
 	h = new XMLHttpRequest();
 	h.onreadystatechange = fResponse;

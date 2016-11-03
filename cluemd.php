@@ -1,36 +1,29 @@
 <?php
 	include 'define.php';	
 	include 'database.php';
+	include 'protocol.php';
 
 	include 'cmd1.php';
 	include 'cmd2.php';
 	include 'cmd3.php';
 
-	$recv = $_POST['jk'];
-	if( $recv == null )
-	{
-		blog( 'no data found.','no service.');
-		return;
-	}
-	else
-		clog( "data:".$recv );
+	$p = new protocol();
 
-	$ar = json_decode( $recv );
-	if( $ar == NULL )
-		alog("parsing error");
-
-	switch( $ar->cmd )
+	switch( $p->getCmd() )
 	{
-	case "test1":			doTest1($ar);					break;
-	case "getname": 		doGetname($ar);					break;
-	case "addname";			doAddname($ar);					break;
-	case "getSalary":		doSalary($ar);					break;
-	case "setWelfare":		doSetWelfare($ar);				break;
-	case "getWelfare":		doGetWelfare($ar);				break;		
-	case "setIncenInfo":	doSetIncenInfo($ar);			break;
-	case "getIncen":		doGetIncen($ar);				break;
-	case "getUserInfo":		doGetUserinfo($ar);				break;
-	case "setName":			doSetName($ar);					break;				
-	default:	
+	case "test1":			doTest1($p);					break;
+	case "getname": 		doGetname($p);					break;
+	case "addname";			doAddname($p);					break;
+	case "getSalary":		doSalary($p);					break;
+	case "setWelfare":		doSetWelfare($p);				break;
+	case "getWelfare":		doGetWelfare($p);				break;		
+	case "setIncenInfo":	doSetIncenInfo($p);			break;
+	case "getIncen":		doGetIncen($p);				break;
+	case "getUserInfo":		doGetUserinfo($p);				break;
+	case "setName":			doSetName($p);					break;				
+	default:
+		log1($p->getProtocol());	
 	}
+
+	$p->send();	
 ?>

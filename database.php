@@ -11,7 +11,8 @@ class jkDB {
 			$this->pdo = 
 				new PDO('mysql:host=localhost;dbname=cluemd','root','opfdcrr');
 		} catch( PDOException $e ) {
-			alog( $e->getMessage() );
+			$this->pdo = null;
+			log1( $e->getMessage() );
 			return false;
 		}
 		return true;
@@ -19,8 +20,12 @@ class jkDB {
 
 	function getQuery( $msg )
 	{
+		if(!$this->pdo)
+			return false;
+
 		$st = $this->query( $msg );
-		if( !$st ) return false;
+		if( !$st ) 
+			return false;
 			
 		$r = array();
 		foreach( $st->fetchAll() as $row )
@@ -32,18 +37,24 @@ class jkDB {
 
 	protected function query( $msg )
 	{
-		clog("query:".$msg);
+		log1("query:".$msg);
 
 		$r = $this->pdo->query($msg);
 		if( !$r )
 		{
-			blog( print_r($this->pdo->errorInfo()), 'query error' );
+			log1( print_r($this->pdo->errorInfo(),true) );
 			return false;
 		}
 		return $r;
 	}
 
-	function setQuery( $msg ) { return $this->query( $msg ); }
+	function setQuery( $msg ) 
+	{ 
+		if(!$this->pdo)
+			return false;
+		else
+			return $this->query( $msg ); 
+	}
 	
 }
 	
