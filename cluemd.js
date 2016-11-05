@@ -41,8 +41,10 @@ function fResponse()
 	case 3: break;	// interative
 	case 4:			// complete
 		var r = JSON.parse( this.responseText );
-		if( r.rcode == 100 )
+		if( r.code == 100 )
 			fRecv(r);
+		else
+			fError(r);
 		break;
 	default: 
 		break;
@@ -55,7 +57,7 @@ function doQuery(arr)
 
 	arr.cluemd = '0.1';
 	
-	snd = "jk"+JSON.stringify(arr);
+	snd = "jk="+JSON.stringify(arr);
 
 	h = new XMLHttpRequest();
 	h.onreadystatechange = fResponse;
@@ -64,3 +66,5 @@ function doQuery(arr)
 	h.send(snd);
 }
 
+$ = window;
+function $d(name) { return document.getElementById(name); }

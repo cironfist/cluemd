@@ -11,7 +11,7 @@
 
 	switch( $p->getCmd() )
 	{
-	case "test1":			doTest1($p);					break;
+	case "doSQL":			doSQL($p);						break;
 	case "getname": 		doGetname($p);					break;
 	case "addname";			doAddname($p);					break;
 	case "getSalary":		doSalary($p);					break;
@@ -22,7 +22,9 @@
 	case "getUserInfo":		doGetUserinfo($p);				break;
 	case "setName":			doSetName($p);					break;				
 	default:
-		log1($p->getProtocol());	
+		log1('----------------------------------------------'); 
+		log1($p->getProtocol());						
+		break;
 	}
 
 	$p->send();	

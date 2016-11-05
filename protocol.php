@@ -5,6 +5,7 @@ define ("JK_SUCCESS", 			100);
 define ("JK_DEBUG", 			101);
 define ("JK_FAIL",				999);
 define ("JK_PARSING_FAIL",		900);
+define ("JK_ERROR",				901);
 
 /*	'cmd' protocol define
 	addname : 'aname'=> insert alias name
@@ -13,23 +14,40 @@ define ("JK_PARSING_FAIL",		900);
 */
 
 class protocol {
-	protected $p;
+	public $p = array();
 	/*
 		p['cmd'] 		: command instruction
 		p['msg']		: return message or result or error explain msg
 		p['cluemd']		: ex) 0.1 command version
 		p['code']		: return code. ex) fail.success.error.
 	*/
-	__construct()
+	public function	__construct()
 	{
 		if( isset($_POST['jk']) )
-			$this->p = json_decode($_POST['jk']);
+		{
+			$this->p = json_decode($_POST['jk'],true);
+			if( !$this->getCmd() )
+			{
+				$this->setCmd('notdefine Command');
+				$this->setFailMsg('Command not set.');
+			}
+		}
 		else
 		{
-			$this->p = array();
-			$this->p->setCmd('notdefine');
-			$this->p->setFailMsg('command not defined');
+			$this->p->setCmd('notdefine JK');
+			$this->p->setFailMsg('JK not defined');
 		}
+
+	}
+
+	function __get($name)				{ return $this->p[$name]; }
+	function __set($name,$value)		{ return $this->p[$name] = $value; }
+	function __isset($name)				
+	{ 
+		$r = isset($this->p[$name]); 
+		if( !$r )
+			$this->setFailMsg($name.':argument not set.');
+		return $r;
 	}
 
 	function getProtocol()				{ return $this->p; }
@@ -53,5 +71,6 @@ class protocol {
 		$r = json_encode($this->p);
 		echo $r;
 	}
+}	// class protocol
 	
 ?>

@@ -15,15 +15,20 @@
 	</div>
 </body>
 <script>
+function fError(r)
+{
+	document.getElementById('result').innerText = r.msg;	
+}
 function fRecv(r)
 {
 	var a = Array();
 	a = JSON.parse(r.msg);
 
-	var result;
+	var result = '';
 	for( var i = 0; i < a.length; i++ )
 	{
 		result += a[i].aname+":";
+		//alert(result);
 	}
 
 	document.getElementById('result').innerText = result;	

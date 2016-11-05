@@ -1,5 +1,17 @@
 <?php
-try{
+
+function doSQL($p)
+{
+	if( isset($p->sql,$p->aname) == false )
+		return;
+
+	$db = new jkDB();
+	$r = $db->setQuery( $p->sql );
+	if( $r == false )
+		$p->setFailMsg($p->sql.':Fail');
+	else
+		$p->setSuccessMsg($p->sql.':success');
+}
 
 function doGetname($p)
 {
@@ -18,17 +30,16 @@ function doGetname($p)
 
 function doAddname($p)
 {
-	$par = $p->getProtocol();
-	$q = "INSERT INTO user (aname) VALUES ('".$par->aname."');";
+	if( isset($p->aname) == false )
+		return;
+
+	$q = "INSERT INTO user (aname) VALUES ('".$p->aname."');";
 
 	$db = new jkDB();
 	if( $db->setQuery($q) == false )
 		$p->setFailMsg('addname fail.');
 	else
-		$p->setSuccessMsg($par->aname.' is inserted.');
+		$p->setSuccessMsg($p->aname.' is inserted.');
 }
 
-} catch( Exception $e ) {
-	log1( $e->getMessage() );
-}
 ?>

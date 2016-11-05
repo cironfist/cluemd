@@ -13,9 +13,7 @@ class jkDB {
 		} catch( PDOException $e ) {
 			$this->pdo = null;
 			log1( $e->getMessage() );
-			return false;
 		}
-		return true;
 	}
 
 	function getQuery( $msg )
@@ -28,7 +26,7 @@ class jkDB {
 			return false;
 			
 		$r = array();
-		foreach( $st->fetchAll() as $row )
+		foreach( $st->fetchAll(PDO::FETCH_ASSOC) as $row )
 		{
 			$r[] = $row;			
 		}
