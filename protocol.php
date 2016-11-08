@@ -34,8 +34,8 @@ class protocol {
 		}
 		else
 		{
-			$this->p->setCmd('notdefine JK');
-			$this->p->setFailMsg('JK not defined');
+			$this->setCmd('notdefine JK');
+			$this->setFailMsg('JK not defined');
 		}
 
 	}

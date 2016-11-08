@@ -2,14 +2,16 @@
 class jkDB {
 	protected $pdo;
 
-	function __construct() { $this->open(); }
+	function __construct($dbname) { $this->open($dbname); }
 	function __destruct() {}
 
-	protected function open()
+	protected function open($dbname)
 	{
 		try{
+			$openstr =
+			'mysql:host=localhost;dbname='.$dbname;
 			$this->pdo = 
-				new PDO('mysql:host=localhost;dbname=cluemd','root','opfdcrr');
+				new PDO($openstr,'root','opfdcrr');
 		} catch( PDOException $e ) {
 			$this->pdo = null;
 			log1( $e->getMessage() );
