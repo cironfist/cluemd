@@ -31,7 +31,7 @@ function doGetname($p)
 function doAddname($p)
 {
 	if( isset($p->aname) == false )
-		return $p->setFailMsg('real name not set.');
+		return ;
 
 	$q = "INSERT INTO user (aname) VALUES ('".$p->aname."');";
 
@@ -45,23 +45,65 @@ function doAddname($p)
 function doGetSalary($p)
 {
 	if( !isset($p->idx) )
-		return $p->setFailMsg('not employee');
+		return ;
 
 	$sql="SELECT date,tbonus,sbonus,obonus,salary,rate,hour,tsalary FROM bonus WHERE idx='$p->idx' ORDER BY date DESC;";
 	/*if( isset($p->date) ) 
-		$sql += "WHERE B.date='$p->date' ";
+		$sql .= "WHERE B.date='$p->date' ";
 	
-	$sql += "INNER JOIN user AS U ON B.idx = u.idx;";*/
+	$sql .= "INNER JOIN user AS U ON B.idx = u.idx;";*/
 	$db = new jkDB('cluemd');
-	$ar = $db->getQuery();
+	$ar = $db->getQuery($sql);
 	if(!$ar)
 		$p->setFailMsg('no data founud.');
 	else
 	{
-		$p->setSuccessMsg();
+		$p->setSuccess();
 		$p->setArrayMsg($ar);
 	}
 	
+}
+
+function getUserInfo($p)
+{
+	if(!isset($p->idx))
+		return ;
+
+	$sql="SELECT * FROM user WHERE idx='$p->idx';";
+
+	$db= new jkDB('cluemd');
+	$ar=$db->getQuery($sql);
+	if(!$ar)
+		$p->setFailMsg('not find user info.');
+	else
+	{
+		$p->setSuccess();
+		$p->setArrayMsg($ar);
+	}
+}
+
+function setUserInfo($p)
+{
+	if(!isset($p->idx))
+		return;
+
+//	UPDATE user set WHERE
+	$sql="UPDATE user SET ";
+	if(isSetAr('aname')) {$sql.="aname='$p->aname'";}
+	if(isSetAr('email')) {$sql.="email='$p->email'";}
+	if(isSetAr('salary')) {$sql.="salary='$p->salary'";}
+	if(isSetAr('hour')) {$sql.="hour='$p->hour'";}
+	if(isSetAr('rate')) {$sql.="rate='$p->rate'";}
+	if(isSetAr('current')) {$sql.="current='$p->current'";}
+	if(isSetAr('status')) {$sql.="status='$p->status'";}
+	
+	$sql.=" WHERE idx='$p->idx';";
+
+	$db = new jkDB('cluemd');
+	if( $db->setQuery($sql) )
+		$p->setSuccessMsg('success set user information.');
+	else
+		$p->setFailMsg('Fail user info.');
 }
 
 ?>

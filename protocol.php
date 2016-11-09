@@ -50,6 +50,8 @@ class protocol {
 		return $r;
 	}
 
+	function isSetAr($name)  			{return isset($this->p[$name]); }
+
 	function getProtocol()				{ return $this->p; }
 	function getCmd()					{ return $this->p['cmd']; }
 

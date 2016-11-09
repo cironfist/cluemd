@@ -17,9 +17,10 @@ function doMakeBonusTable($p)
 	$obnus=$salear['online_sale']/$salear['persons'];
 	$bpercent = getBonusPercent($salqar['offline_sale']);
 
-	$sbonus = $tbonus = $tsalary = $salary = $hour = $rate = 0;
+	$sbonus = $tbonus = $tsalary = $salary = $hour = $rate = $idx = 0;
 	foreach($uar as $user)
 	{
+		$idx = $uar['idx'];
 		$hour = $uar['hour'];
 		$rate = $uar['rate'];
 		if($uar['current']=='parttime')
@@ -31,7 +32,7 @@ function doMakeBonusTable($p)
 		$tbonus = $sbonus+$obonus;
 		$tsalary = $tbonus+$salary;
 		$sql="INSERT INTO bonus(idx,tbonus,sbonus,tsalary,obonus,bpercent,date,hour,salary,rate) 
-		VALUES ('$uar['idx'],'$tbonus','$sbonus','$tsalary','$obonus','$p->date','$houor,'$rate','$salary');";
+		VALUES ('$idx','$tbonus','$sbonus','$tsalary','$obonus','$p->date','$houor,'$rate','$salary');";
 
 		$db->setQuery($sql);
 	}

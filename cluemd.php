@@ -17,12 +17,14 @@
 	case "getSalary":		doGetSalary($p);				break;
 	case "setWelfare":		doSetWelfare($p);				break;
 	case "getWelfare":		doGetWelfare($p);				break;		
-	case "setIncenInfo":	doSetIncenInfo($p);			break;
-	case "getIncen":		doGetIncen($p);				break;
-	case "getUserInfo":		doGetUserinfo($p);				break;
+	case "setUserInfo":		doSetIncenInfo($p);				break;
+	case "getUserInfo":		doGetUserInfo($p);				break;
 	case "setName":			doSetName($p);					break;	
 	case "makeBonusTable":  doMakeBonusTable($p);			break;
-	case "setSalesInfo": 	doSetSalesInfo($p);				break;			
+	case "setSalesInfo": 	doSetSalesInfo($p);				break;	
+	case "adduser": 		doAddUser($p);					break;
+	case "login": 			doLogin($p);					break;
+			
 	default:
 		log1('----------------------------------------------'); 
 		log1($p->getProtocol());						

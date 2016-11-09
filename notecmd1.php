@@ -3,7 +3,7 @@
 function addnote($p)
 {
     if( !isset($p->title,$p->value) )
-        return $p->setFailMsg('not set argument.');
+        return ;
         
     $sql = "INSERT INTO note (title,value) VALUES('".$p->title."','".$p->value."');";
 
@@ -17,7 +17,7 @@ function addnote($p)
 function deletenote($p)
 {
     if( !isset($p->idx) )
-        return $p->setFailMsg("index not set.");
+        return ;
 
     $sql = "DELETE FROM note WHERE idx='$p->idx';";
     $db = new jkDB('memo');
@@ -30,7 +30,7 @@ function deletenote($p)
 function doSearchNote($p)
 {
     if( !isset($p->value) )
-        return $p->setFailMsg('keyword not set.');
+        return ;
 
     $sql = "SELECT * FROM note WHERE title LIKE '%$p->value%' OR value LIKE '%$p->value%';";
 
@@ -48,7 +48,7 @@ function doSearchNote($p)
 function doAppendNote($p)
 {
     if( !isset($p->pidx,$p->title,$p->value) )
-        return $p->setFailMsg('not set parent.');
+        return ;
 
     $sql="INSERT INTO note (title,value,pidx) VALUES ('$p->title','$p->value','$p->pidx');";
 
@@ -62,7 +62,7 @@ function doAppendNote($p)
 function doGetNote($p)
 {
     if( !isset($p->idx) )
-        return $p->setFailMsg('not set index.');
+        return ;
 
     $sql="SELECT * FROM note WHERE idx='$p->idx' OR pidx='$p->idx';";
 
@@ -80,7 +80,7 @@ function doGetNote($p)
 function doModifyNote($p)
 {
     if( !isset($p->idx,$p->title,$p->value,$p->pidx) )
-        return $p->setFailMsg('not set modify argument.');
+        return ;
 
     $sql="UPDATE note SET title='$p->title',value='$p->value',pidx='$p->pidx' WHERE idx='$p->idx';";
 
