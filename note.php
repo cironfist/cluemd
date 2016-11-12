@@ -1,6 +1,7 @@
 <?php
 include 'define.php';
 include 'protocol.php';
+include 'database.php';
 
 include 'notecmd1.php';
 

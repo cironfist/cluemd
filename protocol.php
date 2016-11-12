@@ -50,7 +50,7 @@ class protocol {
 		return $r;
 	}
 
-	function isSetAr($name)  			{return isset($this->p[$name]); }
+	function isArg($name)  				{return isset($this->p[$name]); }
 
 	function getProtocol()				{ return $this->p; }
 	function getCmd()					{ return $this->p['cmd']; }
@@ -60,8 +60,9 @@ class protocol {
 	function setSuccess() 				{ $this->p['code'] = JK_SUCCESS; }
 	function setParsingFail()			{ $this->p['code'] = JK_PARSING_FAIL; }
 	function setFail()					{ $this->p['code'] = JK_FAIL; }
-	function setFailMsg($msg)			{ $this->setFail();$this->setMsg($msg); }
-	function setSuccessMsg($msg)		{ $this->setSuccess();$this->setMsg($msg); }
+	function setResult($r) 				{ $this->p['result'] = $r;}
+	function setFailMsg($msg)			{ $this->setFail();$this->setResult($msg); }
+	function setSuccessMsg($msg)		{ $this->setSuccess();$this->setResult($msg); }
 	function setArrayMsg($ar)			
 	{ 
 		$r = json_encode($ar);

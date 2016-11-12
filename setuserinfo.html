@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="cluemd.js"></script>
+</head>
+
+<body>
+    <header>
+        <img src="logo.png" />
+        <label id="userinfo" />
+        <input id="headerBT" type="button" onclick="fHeaderBT()" />
+    </header>
+    <main>
+        <div id="adduser">
+            <p><label>aname</label><select id="aname" onchane="fSelectChange()"></select></p>
+            <p><label>salary</label><input type="text" id="salary" /></p>
+            <p><label>hour</label><input type="password" id="hour" /></p>
+            <p><label>rate</label><input type="password" id="rate" /></p>
+            <p><label>current</label>
+                <select id='current'>
+                    <option>owner</option>
+                    <option>manager</option>
+                    <option>vicemanager</option>
+                    <option>employee</option>
+                    <option>parttime</option>
+                </select>
+            </p>
+            <p><label>email</label><input type="password" id="email" /></p>
+            <input type="button" value="setuserinfo" onclick="fSetUser()" />
+        </div>
+    </main>
+    <footer>
+        <p id="result"></p>
+    </footer>
+</body>
+<script>
+    $.onload = function() {
+        fHeaderLoad();
+
+        var p = new Object();
+        p.cmd = 'getname';
+        doQuery(p);
+    }
+
+    function fError(r) {
+        $d('result').innerText = r.cmd + ":" + r.result;
+    }
+
+    function fRecv(r) {
+        if (r.cmd == "setUserInfo") {
+
+        } else if (r.cmd == "getUserInfo") {
+            var a = fGetMsg(r.msg);
+
+            $d('email').value = a.email;
+            $d('salary').value = a.salary;
+            $d('hour').value = a.hour;
+            $d('rate').value = a.rate;
+
+            fSetList($d('current').options, a.current);
+
+        } else if (r.cmd == "getname") {
+            var a = fGetMsg(r.msg);
+            for (var i = 0; i < a.length; i++) {
+                $add('aname', 'option', a[i].aname, 'value', a[i].idx);
+            }
+        }
+    }
+
+    function fSelectChange() {
+
+        var current = getCookie('current');
+        if (current != "owner" || current != "manager") {
+            alert('owner or manager only');
+            return;
+        }
+
+        var p = new Object();
+        p.cmd = 'getUserInfo';
+        p.idx = $d('aname').options[$d('aname').selectedIndex];
+
+        doQuery(p);
+    }
+
+    function fSetUser() {
+
+        var sIndex = $d('aname').selectedIndex;
+        var options = $d('aname').options;
+
+        var p = new Object();
+        p.cmd = 'setUserInfo';
+        p.idx = options[sIndex].value;
+        p.aname = options[sIndex].text;
+        p.email = $d('email').value;
+        p.email = $d('salary').value;
+        p.email = $d('hour').value;
+        p.email = $d('rate').value;
+        p.email = $d('current').value;
+
+        doQuery(p);
+    }
+</script>
+
+</html>

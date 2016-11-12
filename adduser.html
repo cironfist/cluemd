@@ -11,10 +11,11 @@
         <input id="headerBT" type="button" onclick="fHeaderBT()" />
     </header>
     <main>
-        <div id="login">
+        <div id="adduser">
             <p><label>id</label><input type="text" id="id" /></p>
             <p><label>pw</label><input type="password" id="pw" /></p>
-            <input type="button" value="login" onclick="fLogin()" />
+            <p><label>aname</label><select id="aname"></select></p>
+            <input type="button" value="adduser" onclick="fAddUser()" />
         </div>
     </main>
     <footer>
@@ -24,6 +25,10 @@
 <script>
     $.onload = function() {
         fHeaderLoad();
+
+        var p = new Object();
+        p.cmd = 'getname';
+        doQuery(p);
     }
 
     function fError(r) {
@@ -31,7 +36,7 @@
     }
 
     function fRecv(r) {
-        if (r.cmd == "login") {
+        if (r.cmd == "adduser") {
             var a = fGetMsg(r.msg);
 
             setCookie('idx', a.idx);
@@ -40,16 +45,20 @@
             setCookie('current', a.current);
 
             fHeaderLoad();
+        } else if (r.cmd == "getname") {
+            var a = fGetMsg(r.msg);
+            for (var i = 0; i < a.length; i++) {
+                $add('aname', 'option', a[i].aname);
+            }
         }
-
-        open("selectinfo.html");
     }
 
-    function fLogin() {
+    function fAddUser() {
         var p = new Object();
-        p.cmd = 'login';
+        p.cmd = 'adduser';
         p.email = $d('id').value;
         p.pw = $d('pw').value;
+        p.aname = $d('aname').value;
 
         doQuery(p);
     }

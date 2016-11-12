@@ -2,7 +2,7 @@
 function doMakeBonusTable($p)
 {
 	if(!isset($p->date))
-		return $p->setFailMsg('not argument set.');
+		return ;
 
 	$db = new jkDB('cluemd');
 
@@ -15,24 +15,24 @@ function doMakeBonusTable($p)
 	$uar=$db->getQuery($sql);	
 
 	$obnus=$salear['online_sale']/$salear['persons'];
-	$bpercent = getBonusPercent($salqar['offline_sale']);
+	$bpercent = getBonusPercent($salear['offline_sale']);
 
 	$sbonus = $tbonus = $tsalary = $salary = $hour = $rate = $idx = 0;
 	foreach($uar as $user)
 	{
-		$idx = $uar['idx'];
-		$hour = $uar['hour'];
-		$rate = $uar['rate'];
-		if($uar['current']=='parttime')
+		$idx = $user['idx'];
+		$hour = $user['hour'];
+		$rate = $user['rate'];
+		if($user['current']=='parttime')
 			$salary = $hour*$rate;
 		else
-			$salary = $uar['salary'];
+			$salary = $user['salary'];
 
 		$sbonus = $salary*$bpercent/100;
 		$tbonus = $sbonus+$obonus;
 		$tsalary = $tbonus+$salary;
 		$sql="INSERT INTO bonus(idx,tbonus,sbonus,tsalary,obonus,bpercent,date,hour,salary,rate) 
-		VALUES ('$idx','$tbonus','$sbonus','$tsalary','$obonus','$p->date','$houor,'$rate','$salary');";
+		VALUES ('$idx','$tbonus','$sbonus','$tsalary','$obonus','$p->date','$houor','$rate','$salary');";
 
 		$db->setQuery($sql);
 	}
@@ -41,26 +41,32 @@ function doMakeBonusTable($p)
 function setSalesInfo($p)
 {
 	if(!isset($p->date,$p->offline_sale,$p->online_sale))
-		return $p->setFailMsg('not argument set.');
-
-	$sql="INSERT INTO sales(date,offline_sale,online_sale) 
-	VALUES ('$p->date','$p->offline_sale','$p->online_sale');";
+		return ;
 
 	$db = new jkDB('cluemd');
 
-	$sql2="SELECT count(idx) FROM user WHERE current='fulltime' OR current='parttime';";
-	$r = $db->getQuery($sql2);
-	$counut = 0;
-	if( $r )
+	$sql="INSERT INTO sales(date,offline_sale,online_sale) 
+	VALUES ('$p->date','$p->offline_sale','$p->online_sale'";
+	if(isset($p->persons)) 
+		$sql.=",'$p->persons');";
+	else
 	{
-		log1($r);
-		$counut = $r[0];
+		$sql2="SELECT count(idx) FROM user WHERE current='fulltime' OR current='parttime';";
+		$r = $db->getQuery($sql2);
+		if( $r )
+		{
+			log1($r);
+			$counut = $r['count'];
+			$sql.=",'$counut');";
+		}
+		else
+			$sql.=");";		
 	}
 
 	if( $db->setQuery($sql) )
 		$p->setSuccessMsg("$p->date : sales data set. person($count)");
 	else
-		$p->setFailMsg('sales data set fail.');
+		$p->setFailMsg($db->getFailMsg());
 }
 
 function getBonusPercent($sales)

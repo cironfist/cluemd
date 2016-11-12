@@ -3,13 +3,15 @@
 <script src="cluemd.js"></script>
 </head>
 <body>
+<p id="test">aaa</p>
 <input type="button" value="get cookie" onclick="fClick()" />
 <input type="button" value="set cookie" onclick="fClick2()" />
 </body>
 <script>
 function fClick()
 {
-	alert( getCookie('id') );
+	$d('test').add('dd','dwer');
+	//alert( getCookie('id') );
 }
 function fClick2()
 {

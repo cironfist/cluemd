@@ -15,12 +15,12 @@ function doSQL($p)
 
 function doGetname($p)
 {
-	$q = "SELECT aname FROM user;";
+	$q = "SELECT aname,idx FROM user;";
 
 	$db = new jkDB('cluemd');
 	$arr = $db->getQuery($q);
 	if(!$arr)
-		$p->setFailMsg('Get alias name fail.');
+		$p->setFailMsg($db->getFailMsg());
 	else
 	{
 		$p->setSuccess();
@@ -37,7 +37,7 @@ function doAddname($p)
 
 	$db = new jkDB('cluemd');
 	if( $db->setQuery($q) == false )
-		$p->setFailMsg('addname fail.');
+		$p->setFailMsg($db->getFailMsg());
 	else
 		$p->setSuccessMsg($p->aname.' is inserted.');
 }
@@ -47,7 +47,8 @@ function doGetSalary($p)
 	if( !isset($p->idx) )
 		return ;
 
-	$sql="SELECT date,tbonus,sbonus,obonus,salary,rate,hour,tsalary FROM bonus WHERE idx='$p->idx' ORDER BY date DESC;";
+	$sql="SELECT date,tbonus,sbonus,obonus,salary,rate,hour,tsalary 
+	FROM bonus WHERE idx='$p->idx' ORDER BY date DESC;";
 	/*if( isset($p->date) ) 
 		$sql .= "WHERE B.date='$p->date' ";
 	
@@ -55,7 +56,7 @@ function doGetSalary($p)
 	$db = new jkDB('cluemd');
 	$ar = $db->getQuery($sql);
 	if(!$ar)
-		$p->setFailMsg('no data founud.');
+		$p->setFailMsg($db->getFailMsg());
 	else
 	{
 		$p->setSuccess();
@@ -74,7 +75,7 @@ function getUserInfo($p)
 	$db= new jkDB('cluemd');
 	$ar=$db->getQuery($sql);
 	if(!$ar)
-		$p->setFailMsg('not find user info.');
+		$p->setFailMsg($db->getFailMsg());
 	else
 	{
 		$p->setSuccess();
@@ -86,16 +87,15 @@ function setUserInfo($p)
 {
 	if(!isset($p->idx))
 		return;
-
-//	UPDATE user set WHERE
+	//	UPDATE user set WHERE
 	$sql="UPDATE user SET ";
-	if(isSetAr('aname')) {$sql.="aname='$p->aname'";}
-	if(isSetAr('email')) {$sql.="email='$p->email'";}
-	if(isSetAr('salary')) {$sql.="salary='$p->salary'";}
-	if(isSetAr('hour')) {$sql.="hour='$p->hour'";}
-	if(isSetAr('rate')) {$sql.="rate='$p->rate'";}
-	if(isSetAr('current')) {$sql.="current='$p->current'";}
-	if(isSetAr('status')) {$sql.="status='$p->status'";}
+	if(isArg('aname')) {$sql.="aname='$p->aname'";}
+	if(isArg('email')) {$sql.="email='$p->email'";}
+	if(isArg('salary')) {$sql.="salary='$p->salary'";}
+	if(isArg('hour')) {$sql.="hour='$p->hour'";}
+	if(isArg('rate')) {$sql.="rate='$p->rate'";}
+	if(isArg('current')) {$sql.="current='$p->current'";}
+	if(isArg('status')) {$sql.="status='$p->status'";}
 	
 	$sql.=" WHERE idx='$p->idx';";
 
@@ -103,7 +103,7 @@ function setUserInfo($p)
 	if( $db->setQuery($sql) )
 		$p->setSuccessMsg('success set user information.');
 	else
-		$p->setFailMsg('Fail user info.');
+		$p->setFailMsg($db->getFailMsg());
 }
 
 ?>

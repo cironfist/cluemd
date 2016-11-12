@@ -1,6 +1,6 @@
 <?php
 
-function addnote($p)
+function doAddNote($p)
 {
     if( !isset($p->title,$p->value) )
         return ;
@@ -9,12 +9,12 @@ function addnote($p)
 
     $db = new jkDB('memo');
     if( !$db->setQuery($sql) )
-        $p->setFailMsg('add note Fail');
+        $p->setFailMsg($db->getFailMsg());
     else
         $p->setSuccessMsg('add note success');
 }
 
-function deletenote($p)
+function doDeleteNote($p)
 {
     if( !isset($p->idx) )
         return ;
@@ -22,7 +22,7 @@ function deletenote($p)
     $sql = "DELETE FROM note WHERE idx='$p->idx';";
     $db = new jkDB('memo');
     if( !$db->setQuery($sql) )
-        $p->setFailMsg('delete note Fail');
+        $p->setFailMsg($db->getFailMsg());
     else
         $p->setSuccessMsg('delete note success');
 }
@@ -37,11 +37,11 @@ function doSearchNote($p)
     $db = new jkDB('memo');
     $ar = $db->getQuery( $sql );
     if(!$ar)
-        $p->setFailMsg('no search result found.');
+        $p->setFailMsg($db->getFailMsg());
     else
     {
         $p->setSuccess();
-        $p->setArrayMsg($ar);
+        $p->setArrayMsg($ar);        
     }
 }
 

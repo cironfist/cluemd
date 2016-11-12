@@ -1,34 +1,36 @@
 <!DOCTYPE html>
+
 <head>
-	<title>SQL</title>
-	<meta charset="utf-8">
-	<script src="cluemd.js"></script>
+    <title>SQL</title>
+    <meta charset="utf-8">
+    <script src="cluemd.js"></script>
 </head>
+
 <body>
-	<p><input type="text" id="sql" /></p>
-	<input type="button" value="sql query" onclick="fClick()" />
-	<p id="result"> result </p>
+    <p><input type="text" id="sql" /></p>
+    <input type="button" value="sql query" onclick="fClick()" />
+    <p id="result"> result </p>
 </body>
 <script>
-$.onload = function()
-{
-	alert('ready');
-}
-function fError(r)
-{
-	$d('sql').innerText = r.msg;	
-}
-function fRecv(r)
-{
-	$d('sql').innerText = r.msg;	
-}
-function fClick()
-{
-	var p = new Object();
-	p.cmd = 'doSQL';
-	p.sql = $('sql').value;
+    $.onload = function() {
+        alert('ready');
+    }
 
-	doQuery(p);
-}
+    function fError(r) {
+        $d('sql').innerText = r.result;
+    }
+
+    function fRecv(r) {
+        $d('sql').innerText = r.result;
+    }
+
+    function fClick() {
+        var p = new Object();
+        p.cmd = 'doSQL';
+        p.sql = $('sql').value;
+
+        doQuery(p);
+    }
 </script>
+
 </html>

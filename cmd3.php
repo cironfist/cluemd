@@ -4,12 +4,12 @@ function doLogin($p)
 	if(!isset($p->email,$p->pw))
 		return;
 
-	$sql="SELECT idx FROM user WHERE email='$p->email' AND pw='$p->pw';";
+	$sql="SELECT idx,email,aname,current FROM user WHERE email='$p->email' AND pw='$p->pw';";
 
 	$db = new jkDB('cluemd');
 	$r = $db->getQuery($sql);
 	if(!$r)
-		$p->setFailMsg('fail to get user info.');
+		$p->setFailMsg('fail to Login.');
 	else
 	{
 		$p->setSuccess();
@@ -22,7 +22,7 @@ function doAddUser($p)
 	if(!isset($p->aname,$p->email,$p->pw))
 		return ;
 
-	$sql="INSERT INTO user(email,pw,aname) VALUES ('$p->email','$p->pw','$p->aname');";
+	$sql="UPDATE user SET email='$p->email' pw='$p->pw' WHERE aname='$p->aname';";
 
 	$db = new jkDB('cluemd');
 	if( $db->setQuery($sql) )
@@ -30,6 +30,6 @@ function doAddUser($p)
 		doLogin($p);		
 	}
 	else
-		$p->setFailMsg('Fail to add user.');
+		$p->setFailMsg($db->getFailMsg());
 }
 ?>

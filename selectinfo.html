@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="cluemd.js"></script>
+</head>
+
+<body>
+    <header>
+        <img src="logo.png" />
+        <label id="userinfo" />
+        <input id="headerBT" type="button" onclick="fHeaderBT()" />
+    </header>
+    <main>
+        <input type="button" value="incentive" onclick="fIncentive()" />
+        <input type="button" value="welfare" onclick="fWelfare()" />
+    </main>
+    <footer>
+        <p id="result"></p>
+    </footer>
+</body>
+<script>
+    $.onload = function() {
+        fHeaderLoad();
+    }
+
+    function fIncentive() {
+        $.location.href = "incentive.html";
+    }
+
+    function fWelfare() {
+        $.location.href = "welfare.html";
+    }
+</script>
+
+</html>

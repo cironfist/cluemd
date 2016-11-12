@@ -17,8 +17,8 @@
 	case "getSalary":		doGetSalary($p);				break;
 	case "setWelfare":		doSetWelfare($p);				break;
 	case "getWelfare":		doGetWelfare($p);				break;		
-	case "setUserInfo":		doSetIncenInfo($p);				break;
-	case "getUserInfo":		doGetUserInfo($p);				break;
+	case "setUserInfo":		setUserInfo($p);				break;
+	case "getUserInfo":		getUserInfo($p);				break;
 	case "setName":			doSetName($p);					break;	
 	case "makeBonusTable":  doMakeBonusTable($p);			break;
 	case "setSalesInfo": 	doSetSalesInfo($p);				break;	

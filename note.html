@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="cluemd.js"></script>
+</head>
+
+<body>
+    <p id="result"></p>
+    <p>
+        <input type="text" id="data" onchange="fChange()" />
+        <input type="button" value="add" onclick="fAddNote()" />
+    </p>
+    <div id="show">
+    </div>
+</body>
+<script>
+    function fError(r) {
+        fRemoveAllChild($d("show"));
+        $d("result").innerText = r.cmd + ":" + r.result + "-> error";
+    }
+
+    function fRecv(r) {
+        if (r.cmd == "searchnote") {
+            var parent = $d("show");
+            fRemoveAllChild(parent);
+
+            var a = fGetMsg(r.msg);
+
+            var key = r.value;
+            for (var i = 0; i < a.length; i++) {
+                var str = a[i].title + "/" + a[i].value;
+                str.replace(key, "<em>" + key + "</em>");
+                var e = $add(parent, 'p', str, 'onclick', 'fClick(this)');
+                e.setAttribute('for', a[i].idx + "/" + a[i].pix);
+            }
+
+        } else if (r.cmd == "addnote") {
+            $d("result").innerText = r.cmd + ":" + r.result;
+        } else if (r.cmd == "getnote") {
+
+        }
+    }
+
+    function fClick(e) {
+        var str = e.getAttribute("for");
+        var a = str.split("/");
+
+        var p = new Object();
+        p.cmd = "getnote";
+        p.idx = a[0];
+
+        doQuery(p, "note.php");
+    }
+
+    function fChange() {
+
+        var p = new Object;
+        p.cmd = "searchnote";
+        p.value = $d("data").value;
+
+        doQuery(p, "note.php");
+    }
+
+    function fAddNote() {
+        var str = $d("data").value;
+        var a = str.split("/");
+
+        var p = new Object();
+        p.cmd = "addnote";
+        p.title = a[0];
+        p.value = a[1];
+
+        doQuery(p, "note.php");
+    }
+</script>
+
+</html>
