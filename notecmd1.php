@@ -32,7 +32,11 @@ function doSearchNote($p)
     if( !isset($p->value) )
         return ;
 
-    $sql = "SELECT * FROM note WHERE title LIKE '%$p->value%' OR value LIKE '%$p->value%';";
+    if( $p->value == "*")
+        $sql ="SELECT * FROM note;";
+    else
+        $sql = "SELECT * FROM note WHERE title 
+        LIKE '%$p->value%' OR value LIKE '%$p->value%';";
 
     $db = new jkDB('memo');
     $ar = $db->getQuery( $sql );
@@ -54,9 +58,12 @@ function doAppendNote($p)
 
     $db = new jkDB('memo');
     if( !$db->setQuery($sql) )
-        $p->setFailMsg('append note fail.');
+        $p->setFailMsg($db->getFailMsg());
     else
-        $p->setSuccessMsg('append note success.');
+    {
+        $p->idx = $p->pidx;
+        doGetNote($p);
+    }
 }
 
 function doGetNote($p)
@@ -64,12 +71,16 @@ function doGetNote($p)
     if( !isset($p->idx) )
         return ;
 
-    $sql="SELECT * FROM note WHERE idx='$p->idx' OR pidx='$p->idx';";
+    $sql="SELECT * FROM note WHERE idx='$p->idx' OR pidx='$p->idx'";
+    if( isset($p->pidx) )
+        $sql .= " OR idx='$p->pidx' OR pidx='$p->pidx';";
+    else
+        $sql .= ";";
 
     $db = new jkDB('memo');
     $ar = $db->getQuery($sql);
     if(!$ar)
-        $p->setFailMsg('get note info fail.');
+        $p->setFailMsg($db->getFailMsg());
     else
     {
         $p->setSuccess();
@@ -79,16 +90,17 @@ function doGetNote($p)
 
 function doModifyNote($p)
 {
-    if( !isset($p->idx,$p->title,$p->value,$p->pidx) )
+    if( !isset($p->idx,$p->title,$p->value) )
         return ;
 
-    $sql="UPDATE note SET title='$p->title',value='$p->value',pidx='$p->pidx' WHERE idx='$p->idx';";
+    $sql="UPDATE note SET title='$p->title',value='$p->value' WHERE idx='$p->idx';";
 
     $db = new jkDB('memo');
     if($db->setQuery($sql))
-        $p->setSuccessMsg('note Modified.');
+        //$p->setSuccessMsg('update success.');
+        doGetNote($p);
     else 
-        $p->setFailMsg('note modify fail.');   
+        $p->setFailMsg($db->getFailMsg());   
 }
 
 

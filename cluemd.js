@@ -85,11 +85,10 @@ function fSetList(options, value) {
 }
 
 function fRemoveAllChild(e) {
-    if (!e.hasChildNodes())
-        return;
     var ch = e.children;
-    for (var i = 0; i < ch.length; i++) {
-        e.removeChild(ch[i]);
+    var l = ch.length;
+    for (var i = 0; i < l; i++) {
+        e.removeChild(e.firstElementChild);
     }
 }
 

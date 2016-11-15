@@ -5,10 +5,20 @@
 </head>
 
 <body>
-    <p id="result"></p>
+    <p id="result">result</p>
     <p>
-        <input type="text" id="data" onchange="fChange()" />
+        <input type="text" id="title" /><input type="text" id="value" />
+    </p>
+    <p>
         <input type="button" value="add" onclick="fAddNote()" />
+        <input type="button" id="append" value="append" onclick="fAppendNote()" />
+        <input type="button" id="modify" value="modify" onclick="fModifyNote()" />
+        <input type="button" id="getnote" value="get" onclick="fGetNote()" />
+        <input type="button" id="deletenote" value="delete" onclick="fDeleteNote()" />
+        <input type="hidden" id="storeid" value="0" />
+    </p>
+    <p>
+        <input type="text" id="search" onchange="fChange()" />
     </p>
     <div id="show">
     </div>
@@ -20,55 +30,107 @@
     }
 
     function fRecv(r) {
-        if (r.cmd == "searchnote") {
-            var parent = $d("show");
-            fRemoveAllChild(parent);
+        switch (r.cmd) {
+            case "searchnote":
+            case "getnote":
+            case "appendnote":
+            case "modifynote":
+                var parent = $d("show");
+                fRemoveAllChild(parent);
 
-            var a = fGetMsg(r.msg);
+                var a = fGetMsg(r.msg);
 
-            var key = r.value;
-            for (var i = 0; i < a.length; i++) {
-                var str = a[i].title + "/" + a[i].value;
-                str.replace(key, "<em>" + key + "</em>");
-                var e = $add(parent, 'p', str, 'onclick', 'fClick(this)');
-                e.setAttribute('for', a[i].idx + "/" + a[i].pix);
-            }
-
-        } else if (r.cmd == "addnote") {
-            $d("result").innerText = r.cmd + ":" + r.result;
-        } else if (r.cmd == "getnote") {
-
+                var key = r.value;
+                for (var i = 0; i < a.length; i++) {
+                    /*var str = a[i].title + "/" + a[i].value;
+                    str.replace(key, "<strong>" + key + "</strong>");*/
+                    var e = $add(parent, 'p', null, 'onclick', 'fClick(this)');
+                    e.setAttribute('idx', a[i].idx);
+                    e.setAttribute('pidx', a[i].pidx);
+                    $add(e, 'label', a[i].title);
+                    $add(e, 'label', a[i].value);
+                }
+                break;
+            case "addnote":
+            case "deletenote":
+                $d("result").innerText = r.cmd + ":" + r.result;
+                break;
+            default:
+                $d("result").innerText = r.result;
+                break;
         }
     }
 
     function fClick(e) {
-        var str = e.getAttribute("for");
-        var a = str.split("/");
+        $d("storeid").setAttribute("idx", e.getAttribute("idx"));
+        $d("storeid").setAttribute("pidx", e.getAttribute("pidx"));
 
+        $d("title").value = e.children[0].innerText;
+        $d("value").value = e.children[1].innerText;
+
+        $d("result").innerText = e.getAttribute("idx") + "/" + e.getAttribute("pidx") + "->click set.";
+    }
+
+    function fModifyNote() {
+        var p = new Object();
+        p.cmd = "modifynote";
+        p.idx = $d("storeid").getAttribute("idx");
+        p.title = $d("title").value;
+        p.value = $d("value").value;
+
+        doQuery(p, "note.php");
+    }
+
+    function fGetNote() {
         var p = new Object();
         p.cmd = "getnote";
-        p.idx = a[0];
+        p.idx = $d("storeid").getAttribute("idx");
+        var pidx = $d("storeid").getAttribute("pidx");
+        if (pidx != undefined)
+            p.pidx = pidx;
+
+        doQuery(p, "note.php");
+    }
+
+    function fDeleteNote() {
+        var p = new Object();
+        p.cmd = "deletenote";
+        p.idx = $d("storeid").getAttribute("idx");
 
         doQuery(p, "note.php");
     }
 
     function fChange() {
+        var value = $d("search").value;
+        if (value.length == 0) {
+            var parent = $d("show");
+            fRemoveAllChild(parent);
+            $d("result").innerText = "no search keyword.";
+            return;
+        }
 
         var p = new Object;
         p.cmd = "searchnote";
-        p.value = $d("data").value;
+        p.value = value;
+
+        doQuery(p, "note.php");
+    }
+
+    function fAppendNote() {
+        var p = new Object();
+        p.cmd = "appendnote";
+        p.title = $d("title").value;
+        p.value = $d("value").value;
+        p.pidx = $d("storeid").getAttribute("idx");
 
         doQuery(p, "note.php");
     }
 
     function fAddNote() {
-        var str = $d("data").value;
-        var a = str.split("/");
-
         var p = new Object();
         p.cmd = "addnote";
-        p.title = a[0];
-        p.value = a[1];
+        p.title = $d("title").value;
+        p.value = $d("value").value;
 
         doQuery(p, "note.php");
     }
