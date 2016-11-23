@@ -5,6 +5,8 @@ function fError(r) {}
 function setCookie($key, $value, $exp = 30) {
     var d = new Date();
     var ar = new Object();
+    if (document.cookie)
+        ar = JSON.parse(document.cookie);
     ar['domain'] = 'cluemd';
     ar[$key] = $value;
     ar['expday'] = d.getDate() + $exp;
@@ -27,6 +29,63 @@ function getCookie($key) {
         return r[$key];
     }
 }
+
+function fmoney(str) {
+    if (str.length < 4)
+        return str;
+
+    var pattern = /(\d+)(\d{3})/;
+    if (pattern.test(str)) {
+        var $1 = RegExp.$1;
+        var $2 = RegExp.$2;
+        return fmoney($1) + "," + $2;
+    }
+    return str;
+}
+
+Element.prototype.attrfind = function(name, value) {
+
+    for (var i = 0; i < this.children.length; i++) {
+        if (this.children[i].hasAttribute(name)) {
+            if (this.children[i].attr(name) == value)
+                return this.children[i];
+        }
+    }
+    return false;
+}
+
+Element.prototype.attr = function(name, value = null) {
+    if (!value)
+        return this.getAttribute(name);
+
+    this.setAttribute(name, value);
+
+    return this;
+}
+
+Element.prototype.add = function(tag, text = null, attr = null, value = null) {
+    var e = document.createElement(tag);
+
+    if (text) {
+        var tnode = document.createTextNode(text);
+        e.appendChild(tnode);
+    }
+    if (attr && value) { e.setAttribute(attr, value); }
+
+    this.appendChild(e);
+
+    return e;
+}
+
+Element.prototype.removeAll = function() {
+    var ch = this.children;
+    var l = ch.length;
+    for (var i = 0; i < l; i++) {
+        this.firstElementChild.removeAll();
+        this.removeChild(this.firstElementChild);
+    }
+}
+
 
 function fHeaderBT() {
     var d = $d('headerBT').value;
@@ -84,14 +143,6 @@ function fSetList(options, value) {
     }
 }
 
-function fRemoveAllChild(e) {
-    var ch = e.children;
-    var l = ch.length;
-    for (var i = 0; i < l; i++) {
-        e.removeChild(e.firstElementChild);
-    }
-}
-
 function fGetMsg(msg) {
     var a = Array();
     a = JSON.parse(msg);
@@ -116,25 +167,9 @@ $ = window;
 
 function $d(name) {
     if (name.charAt(0) == '#')
-        return document.getElementsByTagName(name.substr(1, name.length - 2));
+        return document.getElementsByTagName(name.substr(1, name.length - 1));
     else if (name.charAt(0) == '!')
-        return document.getElementById(name.substr(1, name.length - 2)).style;
+        return document.getElementById(name.substr(1, name.length - 1)).style;
     else
         return document.getElementById(name);
-}
-
-function $add(parent, tag, text = null, attr = null, value = null) {
-    var e = document.createElement(tag);
-
-    if (text) {
-        var tnode = document.createTextNode(text);
-        e.appendChild(tnode);
-    }
-    if (attr && value) { e.setAttribute(attr, value); }
-
-    if (typeof parent == 'string')
-        $d(parent).appendChild(e);
-    else
-        parent.appendChild(e);
-    return e;
 }

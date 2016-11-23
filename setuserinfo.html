@@ -14,6 +14,7 @@
         <div id="adduser">
             <p><label>aname</label><select id="aname" onchane="fSelectChange()"></select></p>
             <p><label>salary</label><input type="text" id="salary" /></p>
+            <p><label>welfare</label><input type="text" id="welfare" /></p>
             <p><label>hour</label><input type="password" id="hour" /></p>
             <p><label>rate</label><input type="password" id="rate" /></p>
             <p><label>current</label>
@@ -92,10 +93,11 @@
         p.idx = options[sIndex].value;
         p.aname = options[sIndex].text;
         p.email = $d('email').value;
-        p.email = $d('salary').value;
-        p.email = $d('hour').value;
-        p.email = $d('rate').value;
-        p.email = $d('current').value;
+        p.salary = $d('salary').value;
+        p.hour = $d('hour').value;
+        p.rate = $d('rate').value;
+        p.current = $d('current').value;
+        p.welfare = $d('welfare').value;
 
         doQuery(p);
     }

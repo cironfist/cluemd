@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="cluemd.js"></script>
+</head>
+
+<body>
+    <header>
+        <img src="logo.png" />
+        <label id="userinfo" />
+        <input id="headerBT" type="button" onclick="fHeaderBT()" />
+    </header>
+    <main>
+        <table id="incentable">
+            <thead>
+                <tr>
+                    <th>날짜</th>
+                    <th>인센티브합</th>
+                    <th>온라인인센티브</th>
+                    <th>급여인센티브</th>
+                    <th>기본급</th>
+                    <th>근무시간</th>
+                    <th>단가</th>
+                    <th>총급여</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    </main>
+    <footer>
+        <p id="result"></p>
+    </footer>
+</body>
+<script>
+    $.onload = function() {
+        fHeaderLoad();
+
+        var idx = getCookie('idx');
+
+        var p = new Object();
+        p.cmd = 'getSalary';
+        p.idx = idx;
+        doQuery(p);
+    }
+
+    function fError(r) {
+        $d('result').innerText = r.cmd + ":" + r.result;
+    }
+
+    function fRecv(r) {
+        if (r.cmd == "getSalary") {
+            var a = fGetMsg(r.msg);
+            var tbonus = sbonus = obonus = salary = rate = hour = tsalary = 0;
+            var body = $d('tbody');
+            table.removeAll();
+            for (var i = 0; i < a.length; i++) {
+                var e = body.add('tr');
+                e.add('th', a[i].date);
+                e.add('td', fmoney(a[i].tbonus));
+                e.add('td', fmoney(a[i].sbonus));
+                e.add('td', fmoney(a[i].obonus));
+                e.add('td', fmoney(a[i].salary));
+                e.add('td', a[i].rate);
+                e.add('td', a[i].hour);
+                e.add('td', fmoney(a[i].tsalary));
+                tbonus += a[i].tbonus;
+                sbonus += a[i].sbonus;
+                obonus += a[i].obonus;
+                salary += a[i].salary;
+                rate += a[i].rate;
+                hour += a[i].hour;
+                tsalary += a[i].tsalary;
+            }
+            var foot = $d('tfoot');
+            var ef = foot.add('tr');
+            ef.add('th', '총합');
+            ef.add('td', fmoney(tbonus));
+            ef.add('td', fmoney(sbonus));
+            ef.add('td', fmoney(obonus));
+            ef.add('td', fmoney(salary));
+            ef.add('td', rate);
+            ef.add('td', hour);
+            ef.add('td', fmoney(tsalary));
+        }
+    }
+</script>
+
+</html>

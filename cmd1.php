@@ -33,7 +33,7 @@ function doAddname($p)
 	if( isset($p->aname) == false )
 		return ;
 
-	$q = "INSERT INTO user (aname) VALUES ('".$p->aname."');";
+	$q = "INSERT INTO user (aname) VALUES ('$p->aname');";
 
 	$db = new jkDB('cluemd');
 	if( $db->setQuery($q) == false )
@@ -61,8 +61,7 @@ function doGetSalary($p)
 	{
 		$p->setSuccess();
 		$p->setArrayMsg($ar);
-	}
-	
+	}	
 }
 
 function getUserInfo($p)

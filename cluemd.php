@@ -15,7 +15,7 @@
 	case "getname": 		doGetname($p);					break;
 	case "addname";			doAddname($p);					break;
 	case "getSalary":		doGetSalary($p);				break;
-	case "setWelfare":		doSetWelfare($p);				break;
+	case "addwelfare":		doAddWelfare($p);				break;
 	case "getWelfare":		doGetWelfare($p);				break;		
 	case "setUserInfo":		setUserInfo($p);				break;
 	case "getUserInfo":		getUserInfo($p);				break;

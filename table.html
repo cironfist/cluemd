@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="cluemd.js"></script>
+    <script src="calendar.js"></script>
+</head>
+
+<body id='tt'>
+    <input type="text" id="date" />
+    <input type="button" value="달력" onclick="fclick(this)" />
+</body>
+<script>
+    $.onload = function() {
+        // $d('date').attr('onfocus', 'ffocus(this)');
+    }
+
+    function fclick(e) {
+        $d('tt').calendar('month');
+    }
+</script>
+
+</html>

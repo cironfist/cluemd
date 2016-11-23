@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="cluemd.js"></script>
+</head>
+
+<body>
+    <header>
+        <img src="logo.png" />
+        <input id="headerBT" type="button" onclick="fHeaderBT()" />
+    </header>
+    <main>
+        <div id="addwelfare">
+            <p><label>
+                <script>
+                var str="1000011";
+                var asss = fmoney(str);
+                //var bbb = str.money();
+               var bbb="";
+                </script></label><select id="date"></select></p>
+            <p><label>money</label><input type="text" id="money" /></p>
+            <p><label>info</label>
+                <select id='info'>
+                    <option>통신</option>
+                    <option>학원</option>
+                    <option>헬스</option>
+                    <option>마사지</option>
+                    <option>기타</option>
+                </select>
+            </p>
+            <input type="button" value="addwelfare" onclick="fAddWelfare()" />
+        </div>
+    </main>
+    <footer>
+        <p id="result"></p>
+    </footer>
+</body>
+<script>
+    $.onload = function() {
+        //fHeaderLoad();
+    }
+
+    function fError(r) {
+        $d('result').innerText = r.cmd + ":" + r.result;
+    }
+
+    function fRecv(r) {
+
+    }
+
+    function fAddWelfare() {
+        var idx = getCookie('idx');
+        var p = new Object();
+        p.cmd = 'addwelfare';
+        p.idx = idx;
+        p.money = $d('money').value;
+        p.date = $d('date').value;
+        p.info = $d('info').options[$d('info').selectedIndex];
+
+        doQuery(p);
+
+    }
+</script>
+
+</html>
