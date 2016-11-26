@@ -57,13 +57,13 @@
             for (var i = 0; i < a.length; i++) {
                 var e = $add('tbody', 'tr');
                 $add(e, 'th', a[i].date);
-                $add(e, 'td', a[i].tbonus);
-                $add(e, 'td', a[i].sbonus);
-                $add(e, 'td', a[i].obonus);
-                $add(e, 'td', a[i].salary);
+                $add(e, 'td', fmoney(a[i].tbonus));
+                $add(e, 'td', fmoney(a[i].sbonus));
+                $add(e, 'td', fmoney(a[i].obonus));
+                $add(e, 'td', fmoney(a[i].salary));
                 $add(e, 'td', a[i].rate);
                 $add(e, 'td', a[i].hour);
-                $add(e, 'td', a[i].tsalary);
+                $add(e, 'td', fmoney(a[i].tsalary));
                 tbonus += a[i].tbonus;
                 sbonus += a[i].sbonus;
                 obonus += a[i].obonus;
@@ -74,13 +74,13 @@
             }
             var ef = $add('tfoot', 'tr');
             $add(ef, 'th', '총합');
-            $add(ef, 'td', tbonus);
-            $add(ef, 'td', sbonus);
-            $add(ef, 'td', obonus);
-            $add(ef, 'td', salary);
+            $add(ef, 'td', fmoney(tbonus));
+            $add(ef, 'td', fmoney(sbonus));
+            $add(ef, 'td', fmoney(obonus));
+            $add(ef, 'td', fmoney(salary));
             $add(ef, 'td', rate);
             $add(ef, 'td', hour);
-            $add(ef, 'td', tsalary);
+            $add(ef, 'td', fmoney(tsalary));
         }
     }
 </script>

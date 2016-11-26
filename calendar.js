@@ -11,17 +11,18 @@ function _fprev_cal() {
     var month = $d('calmonth').attr('name');
     var date = $d('calday').attr('name');
 
-    if (month == 0) {
-        month = 11;
-        year--;
-    } else
-        month--;
-
     var type = $d('caltype').attr('name');
-    if (type == 'month')
+    if (type == 'month') {
+        year--;
         _f_makemonth_cal(year, month);
-    else
+    } else {
+        if (month == 0) {
+            month = 11;
+            year--;
+        } else
+            month--;
         _f_makeday_cal(year, month, date);
+    }
 }
 
 function _fnext_cal() {
@@ -29,18 +30,19 @@ function _fnext_cal() {
     var month = $d('calmonth').attr('name');
     var date = $d('calday').attr('name');
 
-    if (month == 11) {
-        month = 0;
-        year++;
-    } else {
-        month++;
-    }
-
     var type = $d('caltype').attr('name');
-    if (type == 'month')
+    if (type == 'month') {
+        year--;
         _f_makemonth_cal(year, month);
-    else
+    } else {
+        if (month == 11) {
+            month = 0;
+            year++;
+        } else {
+            month++;
+        }
         _f_makeday_cal(year, month, date);
+    }
 }
 
 Element.prototype.calendar = function(type) {
