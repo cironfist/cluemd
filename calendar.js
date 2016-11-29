@@ -46,8 +46,6 @@ function _fnext_cal() {
 }
 
 Element.prototype.calendar = function(type) {
-    /*if ($d('calendar'))
-        return;*/
 
     var t = this.add('table', null, 'id', 'calendar');
     var thead = t.add('thead', null, 'id', 'caltype').attr('name', type);
