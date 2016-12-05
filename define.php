@@ -2,6 +2,7 @@
 
 function log1( $m ) 
 { 
+	date_default_timezone_set('Asia/Seoul');
 	$t = new DateTime();
 	$tf = $t->format("Y-m-d h:i:s");
 

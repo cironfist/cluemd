@@ -77,6 +77,17 @@ Element.prototype.add = function(tag, text = null, attr = null, value = null) {
     return e;
 }
 
+Element.prototype.add2 = function(tag, valuetext, attr, value) {
+    var e = document.createElement(tag);
+
+    if (attr && value) { e.setAttribute(attr, value); }
+    if (valuetext) { e.setAttribute('value', valuetext); }
+
+    this.appendChild(e);
+
+    return e;
+}
+
 Element.prototype.removeAll = function() {
     var ch = this.children;
     var l = ch.length;
